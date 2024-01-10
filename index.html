@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mines Weppeer</title>
+  <link rel="stylesheet" href="./sty.css">
+</head>
+<body>
+  <h1 style="font-size:56px">the most average minesweppeer clone</h1>
+  <p>(written fully in html+js)</p>
+  <main style="margin-top:32px">
+    <div id="difficulty-select">
+      <div><input type="radio" name="difficulty" onchange="makeboard(9,9,10)" id="beginner"><label for="beginner" title="9&times;9&10">Beginner</label></div>
+      <div><input type="radio" name="difficulty" onchange="makeboard(16,16,40)" id="intermediate"><label for="intermediate" title="16&times;16&40">Intermediate</label></div>
+      <div><input type="radio" name="difficulty" onchange="makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16&99">Expert</label></div>
+      <div><input type="radio" name="difficulty"
+        onchange="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
+        id="custom"><label for="custom">Custom...</label></div>
+      <div id="custom-settings">
+        <input         type="number" disabled style="width:2ch" class="setting" placeholder="Width"  name="width"  id="width"  min="3" max="99"  value="16" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
+        >&times;<input type="number" disabled style="width:2ch" class="setting" placeholder="Height" name="height" id="height" min="3" max="99"  value="12" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
+        >&<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
+        >
+      </div>
+    </div>
+    <board class=temp>
+      <row pos="0"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="1"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="2"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="3"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="4"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="5"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="6"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="7"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+      <row pos="8"><cell pos="0"></cell><cell pos="1"></cell><cell pos="2"></cell><cell pos="3"></cell><cell pos="4"></cell><cell pos="5"></cell><cell pos="6"></cell><cell pos="7"></cell><cell pos="8"></cell></row>
+    </board>
+    <div id="numbers" style="font-size:24px;" class="temp">
+      <span id="minecount">29</span>
+      <span id="timer">16</span>
+    </div>
+  </main>
+  <script src="./scr.js"></script>
+</body>
+</html>
