@@ -14,8 +14,12 @@ const makeboard = (w,h,m) => {
     for(let j=0;j<w;j++){
       r = document.createElement('cell');
       r.setAttribute('pos',j);
+      r.setAttribute('onclick',`open(${j},${i})`);
       g.appendChild(r);
     }
   }
   console.log(`${w}x${h}&${m}`)
 }
+// const open = (x,y) => {
+//   console.log(x+','+y)
+// }
