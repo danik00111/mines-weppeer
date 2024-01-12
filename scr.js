@@ -60,7 +60,8 @@ const open_ = (x,y) => {
       for(let i=0;i<neighbourlib.length;i++){
         const nX=cX+neighbourlib[i].x;
         const nY=cY+neighbourlib[i].y;
-        if ((nX>=0)&&(nY>=0)&&(nX<isMine[0].length)&&(nY<isMine.length)&&(!getCell(nX,nY).classList.contains('flag'))&&(getCell(nX,nY).getAttribute('n')===null)){
+        if ((nX>=0)&&(nY>=0)&&(nX<isMine[0].length)&&(nY<isMine.length)&&(!getCell(nX,nY).classList.contains('flag'))&&(getCell(nX,nY).getAttribute('n')===null))
+        {
           const nC=numbor(nX,nY);
           if(nC>0){
             getCell(nX,nY).setAttribute('n',nC.toString())
@@ -69,6 +70,7 @@ const open_ = (x,y) => {
             queue.push({"x":nX,"y":nY});
           }
         }
+        try{getCell(nX,nY).classList.remove('flag')}catch(e){/*ignore and opt out*/};
       }
     }
   }

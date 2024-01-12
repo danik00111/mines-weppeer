@@ -27,4 +27,3 @@ cell.flag{background:slategray;cursor:default}
 cell.hooray{background:greenyellow}
 cell.mine{background:orange}
 cell.explo{background:red/*overrides the ornage above*/}
-cell.wrongflag:after{content:'x';color:red}
