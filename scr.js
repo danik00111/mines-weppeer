@@ -18,9 +18,14 @@ const neighbourlib = [
 let gameOn = false;
 let isMine;
 const flag_ = (x,y) => {
+  if(getCell(x,y).getAttribute("n")!==null)return;
   getCell(x,y).classList.toggle('flag');
+  document.getElementById('minecount').innerHTML =
+    parseInt(document.getElementById('minecount').innerHTML) +
+      (getCell(x,y).classList.contains('flag') ? -1 : 1)
 }
 const open_ = (x,y) => {
+  if(getCell(x,y).classList.contains('flag') || getCell(x,y).getAttribute("n")!==null)return;
   console.log('opening',x+','+y)
 
   if(!gameOn) gameStart(
@@ -30,10 +35,12 @@ const open_ = (x,y) => {
   x,y);
 
   if(isMine[y][x]){
+    clearInterval(timer);
+    time=0;
     gameOn = false;
     getCell(x,y).classList.add('explo');
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('mine');
-    minespots = undefined;
+    minespots = [];
     isMine = undefined;
   };
 
@@ -46,11 +53,16 @@ const open_ = (x,y) => {
 
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
+    clearInterval(timer);
   }
 
 }
-let minespots;
+let minespots = [];
+let timer;
+let time;
 const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
+  time = 0;
+  timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
   gameOn = true;
   console.log('game on');
 
@@ -87,7 +99,7 @@ const makeboard = (w,h,m) => {
       r = document.createElement('cell');
       r.setAttribute('pos',j);
       r.setAttribute('onclick',`open_(${j},${i})`);
-      r.setAttribute('oncontextmenu',`flag_(${j},${i})`);
+      r.setAttribute('oncontextmenu',`flag_(${j},${i});return false`);
       g.appendChild(r);
     }
   }
