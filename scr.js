@@ -25,14 +25,14 @@ const numbor = (x,y) => {
 let gamestate = 'waiting';
 let isMine;
 const flag_ = (x,y) => {
-  if(getCell(x,y).getAttribute("n")!==null)return;
+  if(getCell(x,y).getAttribute("n")!==null||gamestate!='on')return;
   getCell(x,y).classList.toggle('flag');
   document.getElementById('minecount').innerHTML =
     parseInt(document.getElementById('minecount').innerHTML) +
       (getCell(x,y).classList.contains('flag') ? -1 : 1)
 }
 const open_ = (x,y) => {
-  if(getCell(x,y).classList.contains('flag') || getCell(x,y).getAttribute("n")!==null)return;
+  if(getCell(x,y).classList.contains('flag')||getCell(x,y).getAttribute("n")!==null||gamestate=='kaboom'||gamestate=='hooray')return;
   //^ return if h
   if(gamestate=='waiting') gameStart(
     [...document.querySelectorAll('row')].length,
