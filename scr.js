@@ -49,7 +49,15 @@ const open_ = (x,y) => {
     if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x]) count++;
   }catch(e){/*ignore error*/}
 
-  getCell(x,y).setAttribute("n",count||'');
+  if(count>0) {
+    getCell(x,y).setAttribute("n",count); // i couldve just done a `count || ''`, but i need to stuff more logic inside this
+  } else {
+    getCell(x,y).setAttribute("n",'');
+    const queue = [];
+    for(let i=0;i<neighbourlib.length;i++){
+      // WORING ON IT !!!
+    }
+  }
 
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
@@ -75,7 +83,7 @@ const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
   // ^ find the {x,y} object corresponding to the user's first click,
   aray.splice(i,1);
   // ^ and remove it. (does nothing for invalid input.)
-  for(let counter=minecount; counter>0; counter--) msp.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
+  for(let counter=minecount;counter>0;counter--) msp.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
   // ^ take n random elements from the array of {x,y} objects
   minespots = msp;
   aray = [...Array(height)].map(_=>Array(width).fill(0));
@@ -86,7 +94,7 @@ const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
 
 }
 const makeboard = (w,h,m) => {
-  gameOn = false; isMine = undefined;
+  gameOn = false; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
   w = parseInt(w); h = parseInt(h); m = parseInt(m);
   if((w<3)||(h<3)||((m+2)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
     document.querySelector('board').innerHTML='<h1>INVALID INPUT???</h1>';return}
