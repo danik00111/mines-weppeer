@@ -5,15 +5,15 @@ input[name="difficulty"]:checked+label{color:blue}
 label{font-size:28px;cursor:pointer}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}/*all websites*/
 input[type="number"]{appearance:textfield;-moz-appearance:textfield}/*firfox*/
+input::placeholder{color:lightgrey}
 .setting,label{background:rgba(0,0,0,0.1);border-radius:4px}
-#difficulty-select{display:flex;align-items:center;justify-content:center;}
+#difficulty-select{display:flex;align-items:center;justify-content:center;margin:32px 0}
 #difficulty-select div{margin:4px}
-#custom-settings:has(:disabled){opacity:0.5}
 board{display:flex;flex-direction:column;align-items:center;justify-content:center}
 row{display:flex;align-items:center;justify-content:center}
 cell{background:gray;width:24px;height:24px;border-radius:6px;margin:1px}
 cell:not([n])/*only present on closed cells*/{cursor:pointer}
-cell[n]/*only present on open cells*/{background:whitesmoke;cursor:default}
+cell[n]/*only present on open cells*/{background-color:whitesmoke}
 cell:after{content:attr(n);font-weight:bold;font-size:18px;line-height:24px;}
 cell[n="1"]:after{color:dodgerblue}
 cell[n="2"]:after{color:palegreen}
@@ -27,3 +27,4 @@ cell.flag{background:slategray;cursor:default}
 cell.hooray{background:greenyellow}
 cell.mine{background:orange}
 cell.explo{background:red/*overrides the ornage above*/}
+input:disabled{opacity:0.5;cursor:default}

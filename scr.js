@@ -22,7 +22,7 @@ const numbor = (x,y) => {
   }catch(e){/*ignore error*/}
   return count;
 }
-let gameOn = false;
+let gamestate = 'waiting';
 let isMine;
 const flag_ = (x,y) => {
   if(getCell(x,y).getAttribute("n")!==null)return;
@@ -34,7 +34,7 @@ const flag_ = (x,y) => {
 const open_ = (x,y) => {
   if(getCell(x,y).classList.contains('flag') || getCell(x,y).getAttribute("n")!==null)return;
   //^ return if h
-  if(!gameOn) gameStart(
+  if(gamestate=='waiting') gameStart(
     [...document.querySelectorAll('row')].length,
     [...document.querySelector('row').querySelectorAll('cell')].length,
     parseInt(document.getElementById('minecount').innerHTML),
@@ -43,7 +43,8 @@ const open_ = (x,y) => {
   if(isMine[y][x]){
     clearInterval(timer);
     time=0;
-    gameOn = false;
+    gamestate = 'kaboom';
+  
     getCell(x,y).classList.add('explo');
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('mine');
     minespots = [];
@@ -60,8 +61,7 @@ const open_ = (x,y) => {
       for(let i=0;i<neighbourlib.length;i++){
         const nX=cX+neighbourlib[i].x;
         const nY=cY+neighbourlib[i].y;
-        if ((nX>=0)&&(nY>=0)&&(nX<isMine[0].length)&&(nY<isMine.length)&&(!getCell(nX,nY).classList.contains('flag'))&&(getCell(nX,nY).getAttribute('n')===null))
-        {
+        if((nX>=0)&&(nY>=0)&&(nX<width)&&(nY<height))if((getCell(nX,nY).getAttribute('n')===null)){
           const nC=numbor(nX,nY);
           if(nC>0){
             getCell(nX,nY).setAttribute('n',nC.toString())
@@ -77,7 +77,7 @@ const open_ = (x,y) => {
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
-    clearInterval(timer);
+    clearInterval(timer); gamestate = 'yahoo';
   }
   //^ if amt of unopen cells = amt of mines on the board total then a winner is you
 }
@@ -85,11 +85,10 @@ const open_ = (x,y) => {
 let minespots = [];
 let timer;
 let time;
-const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
+const gameStart = (minecount,firstClickX,firstClickY) => {
   time = 0;
   timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
-  gameOn = true;
-  console.log('game on');
+  gamestate = 'on';
   let aray = []; let msp = [];
   //^ restart a game if one is ongoing
   for(let v=0;v<width;v++) for(let g=0;g<height;g++) aray.push({"x":v,"y":g});
@@ -109,8 +108,10 @@ const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
   // ^ on each iteration, change one number in the matrix to one according to arr of obj
   isMine = aray;
 }
+let width; let height;
 const makeboard = (w,h,m) => {
-  gameOn = false; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
+  width = w; height = h;
+  gamestate = 'waiting'; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
   w = parseInt(w); h = parseInt(h); m = parseInt(m);
   if((w<3)||(h<3)||((m+2)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
     document.querySelector('board').innerHTML='<h1>INVALID INPUT???</h1>';return}
@@ -127,5 +128,4 @@ const makeboard = (w,h,m) => {
       g.appendChild(r);
     }
   }
-  console.log(`${w}x${h}&${m}`);
 }
