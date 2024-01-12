@@ -10,10 +10,9 @@ input[type="number"]{appearance:textfield;-moz-appearance:textfield}/*firfox*/
 #difficulty-select div{margin:4px}
 #custom-settings:has(:disabled){opacity:0.5}
 board{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.temp{opacity:0.5}
 row{display:flex;align-items:center;justify-content:center}
 cell{background:gray;width:24px;height:24px;border-radius:6px;margin:1px}
-board:not(.temp) cell:not([n])/*only present on closed cells*/{cursor:pointer}
+cell:not([n])/*only present on closed cells*/{cursor:pointer}
 cell[n]/*only present on open cells*/{background:whitesmoke}
 cell:after{content:attr(n);cursor:pointer;font-weight:bold;font-size:18px;line-height:24px;}
 cell[n="1"]:after{color:dodgerblue}

@@ -5,7 +5,6 @@ document.addEventListener('click',()=>{
   document.querySelector('input#mines').disabled = idek;
 });
 const makeboard = (w,h,m) => {
-  document.querySelectorAll('.temp').forEach(e=>{e.classList.remove('temp')})
   document.querySelector('board').innerHTML='';
   for(let i=0;i<h;i++){
     g = document.createElement('row');
@@ -20,6 +19,6 @@ const makeboard = (w,h,m) => {
   }
   console.log(`${w}x${h}&${m}`)
 }
-// const open = (x,y) => {
-//   console.log(x+','+y)
-// }
+const open = (x,y) => {
+  console.log(x+','+y)
+}
