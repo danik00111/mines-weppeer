@@ -4,7 +4,7 @@ document.addEventListener('click',()=>{
   document.querySelector('input#height').disabled = idek;
   document.querySelector('input#mines').disabled = idek;
 });
-const getCell=(x,y)=>document.querySelector(`row[pos="${y}"] cell[pos="${x}"]`)
+const getCell=(x,y)=>document.querySelector(`row[pos="${y}"] cell[pos="${x}"]`);
 const neighbourlib = [
   {x:-1,y:-1},
   {x:-1,y: 0},
@@ -14,7 +14,14 @@ const neighbourlib = [
   {x: 1,y: 0},
   {x: 1,y:-1},
   {x: 0,y:-1},
-]
+];
+const numbor = (x,y) => {
+  let count = 0;
+  for(let i=0;i<neighbourlib.length;i++)try{
+    if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++
+  }catch(e){/*ignore error*/}
+  return count;
+}
 let gameOn = false;
 let isMine;
 const flag_ = (x,y) => {
@@ -26,14 +33,13 @@ const flag_ = (x,y) => {
 }
 const open_ = (x,y) => {
   if(getCell(x,y).classList.contains('flag') || getCell(x,y).getAttribute("n")!==null)return;
-  console.log('opening',x+','+y)
-
+  //^ return if h
   if(!gameOn) gameStart(
     [...document.querySelectorAll('row')].length,
     [...document.querySelector('row').querySelectorAll('cell')].length,
     parseInt(document.getElementById('minecount').innerHTML),
   x,y);
-
+  //^ start the game if its the first click
   if(isMine[y][x]){
     clearInterval(timer);
     time=0;
@@ -43,28 +49,37 @@ const open_ = (x,y) => {
     minespots = [];
     isMine = undefined;
   };
-
-  let count = 0;
-  for(let i=0;i<neighbourlib.length;i++) try{
-    if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x]) count++;
-  }catch(e){/*ignore error*/}
-
-  if(count>0) {
-    getCell(x,y).setAttribute("n",count); // i couldve just done a `count || ''`, but i need to stuff more logic inside this
+  //^ blow the player's house up if they click a mine
+  if(numbor(x,y)>0){
+    getCell(x,y).setAttribute("n",numbor(x,y)); // i couldve just done a `count || ''`, but i need to stuff more logic inside this
   } else {
     getCell(x,y).setAttribute("n",'');
-    const queue = [];
-    for(let i=0;i<neighbourlib.length;i++){
-      // WORING ON IT !!!
+    const queue=[{x,y}];
+    while(queue.length){
+      const{x:cX,y:cY}=queue.shift();
+      for(let i=0;i<neighbourlib.length;i++){
+        const nX=cX+neighbourlib[i].x;
+        const nY=cY+neighbourlib[i].y;
+        if ((nX>=0)&&(nY>=0)&&(nX<isMine[0].length)&&(nY<isMine.length)&&(!getCell(nX,nY).classList.contains('flag'))&&(getCell(nX,nY).getAttribute('n')===null)){
+          const nC=numbor(nX,nY);
+          if(nC>0){
+            getCell(nX,nY).setAttribute('n',nC.toString())
+          }else{
+            getCell(nX,nY).setAttribute('n','');
+            queue.push({"x":nX,"y":nY});
+          }
+        }
+      }
     }
   }
-
+  //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
     clearInterval(timer);
   }
-
+  //^ if amt of unopen cells = amt of mines on the board total then a winner is you
 }
+
 let minespots = [];
 let timer;
 let time;
@@ -73,8 +88,8 @@ const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
   timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
   gameOn = true;
   console.log('game on');
-
   let aray = []; let msp = [];
+  //^ restart a game if one is ongoing
   for(let v=0;v<width;v++) for(let g=0;g<height;g++) aray.push({"x":v,"y":g});
   // ^ makes an array of objects with every pair of x and y in range specified
   let i=0;
@@ -91,7 +106,6 @@ const gameStart = (width,height,minecount,firstClickX,firstClickY) => {
   for(let l=0;l<minecount;l++) aray[msp[l].y][msp[l].x] = 1;
   // ^ on each iteration, change one number in the matrix to one according to arr of obj
   isMine = aray;
-
 }
 const makeboard = (w,h,m) => {
   gameOn = false; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
@@ -111,5 +125,5 @@ const makeboard = (w,h,m) => {
       g.appendChild(r);
     }
   }
-  console.log(`${w}x${h}&${m}`)
+  console.log(`${w}x${h}&${m}`);
 }

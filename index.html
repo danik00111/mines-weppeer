@@ -11,9 +11,9 @@
   <p>(written fully in html+js)</p>
   <main style="margin-top:32px">
     <div id="difficulty-select">
-      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML =10;makeboard(9,9,10)" id="beginner"><label for="beginner" title="9&times;9&10">Beginner</label></div>
-      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML =40;makeboard(16,16,40)" id="intermediate"><label for="intermediate" title="16&times;16&40">Intermediate</label></div>
-      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML =99;makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16&99">Expert</label></div>
+      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML=10;makeboard(9,9,10)" id="beginner"><label for="beginner" title="9&times;9&10">Beginner</label></div>
+      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML=40;makeboard(16,16,40)" id="intermediate"><label for="intermediate" title="16&times;16&40">Intermediate</label></div>
+      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML=99;makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16&99">Expert</label></div>
       <div><input type="radio" name="difficulty"
         onchange="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
         id="custom"><label for="custom">Custom...</label></div>
