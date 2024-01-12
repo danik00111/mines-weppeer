@@ -11,16 +11,16 @@
   <p>(written fully in html+js)</p>
   <main style="margin-top:32px">
     <div id="difficulty-select">
-      <div><input type="radio" name="difficulty" onchange="makeboard(9,9,10)" id="beginner"><label for="beginner" title="9&times;9&10">Beginner</label></div>
-      <div><input type="radio" name="difficulty" onchange="makeboard(16,16,40)" id="intermediate"><label for="intermediate" title="16&times;16&40">Intermediate</label></div>
-      <div><input type="radio" name="difficulty" onchange="makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16&99">Expert</label></div>
+      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML =10;makeboard(9,9,10)" id="beginner"><label for="beginner" title="9&times;9&10">Beginner</label></div>
+      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML =40;makeboard(16,16,40)" id="intermediate"><label for="intermediate" title="16&times;16&40">Intermediate</label></div>
+      <div><input type="radio" name="difficulty" onchange="document.getElementById('minecount').innerHTML =99;makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16&99">Expert</label></div>
       <div><input type="radio" name="difficulty"
-        onchange="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
+        onchange="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
         id="custom"><label for="custom">Custom...</label></div>
       <div id="custom-settings">
         <input         type="number" disabled style="width:2ch" class="setting" placeholder="Width"  name="width"  id="width"  min="3" max="99"  value="16" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
         >&times;<input type="number" disabled style="width:2ch" class="setting" placeholder="Height" name="height" id="height" min="3" max="99"  value="12" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
-        >&<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
+        >&<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
         >
       </div>
     </div>
