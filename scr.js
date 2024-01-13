@@ -39,12 +39,13 @@ const open_ = (x,y,c) => {
   if(getCell(x,y).getAttribute("n")!==null&&getCell(x,y).getAttribute("n")!=''){
     let flagcount = [];
     for(let i=0;i<neighbourlib.length;i++){
-      try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(1)}else{flagcount.push(0)}}catch(e){/*back out*/}
+      try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(0)}else{flagcount.push(1)}}catch(e){flagcount.push(1)}
     } //........................................vvvv just in case
-    if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==1).length)&&!c) return;
+    if(getCell(x,y)===null)return;
+    if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==0).length)||c!='real click') return;
     //^ if this check passes, then flags around cell >= mines around cell, and it was clicked by the user, so chord
     for(let i=0;i<neighbourlib.length;i++){
-      if(!flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y)
+      if(flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y,'chording')
     }
   }
   //^ khord if the cell has enough flags around it
