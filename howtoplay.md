@@ -18,4 +18,4 @@ If a cell with a 2 already has two (correct!) flags around it, all unflagged cel
 
 
 
-You can read about some strategies and patterns on https://minesweeper.online/help/patterns.
+You can read about some strategies and patterns on [minesweeper.online](https://minesweeper.online/help/patterns).
