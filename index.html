@@ -21,9 +21,19 @@
         onchange="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
         id="custom"><label for="custom">Custom...</label></div>
       <div id="custom-settings">
-        <input         type="number" disabled style="width:2ch" class="setting" placeholder="Width"  name="width"  id="width"  min="3" max="99"  value="16" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
-        >&times;<input type="number" disabled style="width:2ch" class="setting" placeholder="Height" name="height" id="height" min="3" max="99"  value="12" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value)"
-        >&<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32" oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
+        <input         type="number" disabled style="width:2ch" class="setting" placeholder="Width"  name="width"  id="width"  min="3" max="99"  value="16"
+          oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);
+          document.getElementById('width').style.width = document.getElementById('width').value.length + 'ch';
+          if(document.getElementById('width').style.width == '0ch') document.getElementById('width').style.width = '5ch'"
+        >&times;<input type="number" disabled style="width:2ch" class="setting" placeholder="Height" name="height" id="height" min="3" max="99"  value="12"
+          oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);
+          document.getElementById('height').style.width = document.getElementById('height').value.length + 'ch';
+          if(document.getElementById('height').style.width == '0ch') document.getElementById('height').style.width = '6ch'"
+        >&<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32"
+          oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);
+          document.getElementById('mines').style.width = document.getElementById('mines').value.length + 'ch';
+          if(document.getElementById('mines').style.width == '0ch') document.getElementById('mines').style.width = '5ch'
+          document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
         >
       </div>
     </div>
