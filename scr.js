@@ -45,7 +45,9 @@ const open_ = (x,y,c) => {
     if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==0).length)||c!='real click') return;
     //^ if this check passes, then flags around cell >= mines around cell, and it was clicked by the user, so chord
     for(let i=0;i<neighbourlib.length;i++){
-      if(flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y,'chording')
+      if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y)!==null){
+        if(flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y,'chording')
+      }
     }
   }
   //^ khord if the cell has enough flags around it
@@ -63,6 +65,7 @@ const open_ = (x,y,c) => {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('mine');
     minespots = [];
     isMine = undefined;
+    document.querySelector('input[name="difficulty"]:checked').checked = false;
     return;
   };
   //^ blow the player's house up if they click a mine
