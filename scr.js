@@ -35,20 +35,20 @@ const open_ = (x,y) => {
   if(getCell(x,y).classList.contains('flag')||getCell(x,y).getAttribute("n")!==null||gamestate=='kaboom'||gamestate=='hooray')return;
   //^ return if h
   if(gamestate=='waiting') gameStart(
-    [...document.querySelectorAll('row')].length,
-    [...document.querySelector('row').querySelectorAll('cell')].length,
-    parseInt(document.getElementById('minecount').innerHTML),
-  x,y);
+    ((document.getElementById('custom').checked)
+      ?(parseInt(document.getElementById('minecount').innerHTML))
+      :(parseInt(document.querySelector('input[name="difficulty"]:checked').getAttribute('mien'))))
+  ,x,y);
   //^ start the game if its the first click
   if(isMine[y][x]){
     clearInterval(timer);
     time=0;
     gamestate = 'kaboom';
-  
     getCell(x,y).classList.add('explo');
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('mine');
     minespots = [];
     isMine = undefined;
+    return;
   };
   //^ blow the player's house up if they click a mine
   if(numbor(x,y)>0){
@@ -89,13 +89,14 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
   time = 0;
   timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
   gamestate = 'on';
-  let aray = []; let msp = [];
   //^ restart a game if one is ongoing
+  let aray = []; let msp = [];
   for(let v=0;v<width;v++) for(let g=0;g<height;g++) aray.push({"x":v,"y":g});
   // ^ makes an array of objects with every pair of x and y in range specified
   let i=0;
   // ^ the i has to be accessed later, so here
   for(;i<aray.length;i++) if(aray[i].x===firstClickX && aray[i].y===firstClickY) break;
+  debugger;
   // ^ find the {x,y} object corresponding to the user's first click,
   aray.splice(i,1);
   // ^ and remove it. (does nothing for invalid input.)
