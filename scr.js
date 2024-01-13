@@ -149,3 +149,4 @@ const makeboard = (w,h,m) => {
     }
   }
 }
+makeboard(16,16,40) // this option is checked on website load
