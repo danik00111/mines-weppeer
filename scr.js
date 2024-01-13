@@ -33,7 +33,8 @@ const flag_ = (x,y) => {
   (getCell(x,y).classList.contains('flag') ? -1 : 1)
 }
 const open_ = (x,y,c) => {
-  if(x<0||y<0||x>width||y>height) return;
+  if(x<0||y<0||x>width||y>height)return;
+  if(c=='real click'&&rbmlock&&gamestate=='on'&&getCell(x,y).getAttribute('n')===null){flag_(x,y);return}
   
   if(getCell(x,y).classList.contains('flag')||gamestate=='kaboom'||gamestate=='hooray')return;
   //^ return if h

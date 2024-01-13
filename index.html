@@ -44,7 +44,12 @@
     </div>
   </main>
   <div id="toggle-darkmode" onclick="document.body.classList.toggle('darkmode');sessionStorage.setItem('mines-weppeer-darkmode',document.body.classList.contains('darkmode'))" style="cursor:pointer;position:fixed;bottom:2em;right:4em;background:#80808080;border-radius:4px;padding:2px">Toggle Theme</div>
-  <script>if(sessionStorage.getItem('mines-weppeer-darkmode')=='true'||window.matchMedia("(prefers-color-scheme: dark)").matches)document.getElementById('toggle-darkmode').click();</script>
+  <script>let rbmlock = false;</script><style>.glow{box-shadow:0 0 16px 0 greenyellow}</style>
+  <div id="toggle-rbmlock" title=
+"With this on, you can only flag unopen cells, and chord open cells with enough flags nearby.
+If this is glowing, then it's on." onclick="rbmlock=!rbmlock;sessionStorage.setItem('mines-weppeer-rbmlock',rbmlock);if(rbmlock){document.getElementById('toggle-rbmlock').classList.add('glow')}else{document.getElementById('toggle-rbmlock').classList.remove('glow')}"
+    style="cursor:pointer;position:fixed;bottom:2em;left:4em;background:#80808080;border-radius:4px;padding:2px">Toggle RBM-Lock</div>
+  <script>if(sessionStorage.getItem('mines-weppeer-rbmlock')=='true')document.getElementById('toggle-rbmlock').click();if(sessionStorage.getItem('mines-weppeer-darkmode')=='true'||window.matchMedia("(prefers-color-scheme: dark)").matches)document.getElementById('toggle-darkmode').click();</script>
   <script src="./scr.js"></script>
 </body>
 </html>
