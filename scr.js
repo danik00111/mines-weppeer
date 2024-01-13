@@ -71,7 +71,6 @@ const open_ = (x,y,c) => {
     ms = timeEnd-timeStart;
     document.getElementById('decimal').innerHTML = ms % 1000;
     document.getElementById('decimal').classList.add('shown');
-    timecalc();
     return;
   };
   //^ blow the player's house up if they click a mine
@@ -107,7 +106,6 @@ const open_ = (x,y,c) => {
     ms = timeEnd-timeStart;
     document.getElementById('decimal').innerHTML = ms % 1000;
     document.getElementById('decimal').classList.add('shown');
-    timecalc();
   }
   //^ if amt of unopen cells = amt of mines on the board total then a winner is you
 }
@@ -126,11 +124,13 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
   let aray = []; let msp = [];
   for(let v=0;v<width;v++) for(let g=0;g<height;g++) aray.push({"x":v,"y":g});
   // ^ makes an array of objects with every pair of x and y in range specified
-  let i=0;
+  let i;
   // ^ the i has to be accessed later, so here
-  for(;i<aray.length;i++) if(aray[i].x===firstClickX && aray[i].y===firstClickY) break;
-  // ^ find the {x,y} object corresponding to the user's first click,
-  aray.splice(i,1);
+  (neighbourlib.concat([{x:0,y:0}])).forEach(e=>{
+    for(i=0;i<aray.length;i++) if(aray[i].x===firstClickX+e.x && aray[i].y===firstClickY+e.y) break;
+    // ^ find the {x,y} object corresponding to the,
+    aray.splice(i,1);
+  })
   // ^ and remove it. (does nothing for invalid input.)
   for(let counter=minecount;counter>0;counter--) msp.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
   // ^ take n random elements from the array of {x,y} objects
@@ -148,7 +148,7 @@ const makeboard = (w,h,m) => {
   gamestate = 'waiting'; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
   document.getElementById('decimal').classList.remove('shown');
   w = parseInt(w); h = parseInt(h); m = parseInt(m);
-  if((w<3)||(h<3)||((m+2)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
+  if((w<3)||(h<3)||((m+10)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
     document.querySelector('board').innerHTML='<h1>INVALID INPUT???</h1>';return}
   document.querySelector('board').innerHTML='';
   for(let i=0;i<h;i++){
