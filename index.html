@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./sty.css">
 </head>
 <body>
+  <script>if(sessionStorage.getItem('mines-weppeer-darkmode')=='true')document.body.classList.add('darkmode')</script>
   <h1 style="font-size:56px">the most average minesweppeer clone</h1>
   <h3 id="howtoplay"><a href="./howtoplay.html">How to play?</a></h3>
   <p>(written fully in html+js)</p>
@@ -33,7 +34,7 @@
       <span id="timer">0</span>
     </div>
   </main>
-  <div onclick="document.body.classList.toggle('darkmode')" style="cursor:pointer;position:fixed;bottom:2em;right:4em;background:#80808080;border-radius:4px;padding:2px">Toggle Darkmode</div>
+  <div onclick="document.body.classList.toggle('darkmode');sessionStorage.setItem('mines-weppeer-darkmode',document.body.classList.contains('darkmode'))" style="cursor:pointer;position:fixed;bottom:2em;right:4em;background:#80808080;border-radius:4px;padding:2px">Toggle Darkmode</div>
   <script src="./scr.js"></script>
 </body>
 </html>
