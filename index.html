@@ -10,13 +10,14 @@
   <h1 style="font-size:56px">the most average minesweppeer clone</h1>
   <h3 id="howtoplay" title=
 "A rectangular board is generated, with mines spread out on it randomly. You don't know where the mines are, but know how much of them there are.
-Open random cells on it with left-click, until you reveal an &quot;opening&quot;.
-Opening a cell without a mine will show you a number, denoting how much of the eight cells around this cell contain a mine. Empty = 0.
-Right click a cell to &quot;flag&quot; it, to mark it as a mine. You can't open a flagged cell - you will have to unflag it first.
+Open random cells on the board with left-click, until one click opens a chunk of the board.
+Opening a cell without a mine will show you a number, denoting how much of the eight cells around this cell contain a mine. Empty = 0, and it opens all cells around it (often triggering a chain reaction).
+Right click a cell to &quot;flag&quot; it, to mark it as a mine, that way you won't accidentally open that cell, if you click it. Right-click a flagged mine to unflag it.
 Using logical deduction, open every safe cell without opening a cell with a mine.
 
-You can also either left-click or right-click a cell with enough flags around it, to &quot;chord&quot; it, opening all unflagged cells around it. Watch out, though, as you may open a mine this way."
-  ></h3>
+e.g., If a cell with a 1 has only one unopen cell near it, that cell has to be a mine - you can flag it.
+If a cell with a 2 already has two (correct!) flags around it, all unflagged cells near it are safe - you can click the cell to &quot;chord&quot; it, opening all of them.
+(Watch out, though, as you may open a mine this way.)"></h3>
   <p>(written fully in html+js)</p>
   <p style="opacity:0.1;font-size:0.75em">if you see a bug, open a git issue at danik00111/mines-weppeer</p>
   <main>
@@ -35,7 +36,7 @@ You can also either left-click or right-click a cell with enough flags around it
       </div>
     </div>
     <board oncontextmenu="return false"></board>
-    <div id="numbers" style="font-size:24px;margin:12px 0" class="temp">
+    <div id="numbers" style="font-size:24px;margin:12px 0">
       <span id="minecount">40</span>
       <span>🚩 ⏰</span>
       <span id="timer">0</span>
