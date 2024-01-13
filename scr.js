@@ -59,6 +59,7 @@ const open_ = (x,y,c) => {
   ,x,y);
   //^ start the game if its the first click
   if(isMine[y][x]){
+    timeEnd = Date.now();
     clearInterval(timer);
     time=0;
     gamestate = 'kaboom';
@@ -67,6 +68,10 @@ const open_ = (x,y,c) => {
     minespots = [];
     isMine = undefined;
     document.querySelector('input[name="difficulty"]:checked').checked = false;
+    ms = timeEnd-timeStart;
+    document.getElementById('decimal').innerHTML = ms % 1000;
+    document.getElementById('decimal').classList.add('shown');
+    timecalc();
     return;
   };
   //^ blow the player's house up if they click a mine
@@ -95,9 +100,14 @@ const open_ = (x,y,c) => {
   }
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
+    timeEnd = Date.now();
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
     document.querySelector('input[name="difficulty"]:checked').checked = false;
     clearInterval(timer); gamestate = 'hooray';
+    ms = timeEnd-timeStart;
+    document.getElementById('decimal').innerHTML = ms % 1000;
+    document.getElementById('decimal').classList.add('shown');
+    timecalc();
   }
   //^ if amt of unopen cells = amt of mines on the board total then a winner is you
 }
@@ -105,6 +115,9 @@ const open_ = (x,y,c) => {
 let minespots = [];
 let timer;
 let time;
+let timeStart;
+let timeEnd;
+let ms;
 const gameStart = (minecount,firstClickX,firstClickY) => {
   time = 0;
   timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
@@ -127,11 +140,13 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
   for(let l=0;l<minecount;l++) aray[msp[l].y][msp[l].x] = 1;
   // ^ on each iteration, change one number in the matrix to one according to arr of obj
   isMine = aray;
+  timeStart = Date.now();
 }
 let width; let height;
 const makeboard = (w,h,m) => {
   width = w; height = h;
   gamestate = 'waiting'; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
+  document.getElementById('decimal').classList.remove('shown');
   w = parseInt(w); h = parseInt(h); m = parseInt(m);
   if((w<3)||(h<3)||((m+2)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
     document.querySelector('board').innerHTML='<h1>INVALID INPUT???</h1>';return}

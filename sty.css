@@ -35,3 +35,6 @@ cell.hooray{background:greenyellow}
 cell.mine{background:red}
 cell.explo{background:darkred/*overrides the ornage above*/}
 input:disabled{opacity:0.5;cursor:default}
+#decimal{font-size:0.5em;opacity:0.5}
+#decimal:not(.shown){display:none}
+#decimal:before{content:'.'}
