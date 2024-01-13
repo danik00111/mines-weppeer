@@ -96,14 +96,14 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
   let i=0;
   // ^ the i has to be accessed later, so here
   for(;i<aray.length;i++) if(aray[i].x===firstClickX && aray[i].y===firstClickY) break;
-  debugger;
   // ^ find the {x,y} object corresponding to the user's first click,
   aray.splice(i,1);
   // ^ and remove it. (does nothing for invalid input.)
   for(let counter=minecount;counter>0;counter--) msp.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
   // ^ take n random elements from the array of {x,y} objects
+  debugger;
   minespots = msp;
-  aray = [...Array(height)].map(_=>Array(width).fill(0));
+  aray = [...Array(parseInt(height))].map(_=>Array(parseInt(width)).fill(0));
   // ^ make a matrix with all zeros of specified size
   for(let l=0;l<minecount;l++) aray[msp[l].y][msp[l].x] = 1;
   // ^ on each iteration, change one number in the matrix to one according to arr of obj
