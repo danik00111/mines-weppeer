@@ -41,8 +41,8 @@ const open_ = (x,y,c) => {
     let flagcount = [];
     for(let i=0;i<neighbourlib.length;i++){
       try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(0)}else{flagcount.push(1)}}catch(e){flagcount.push(1)}
-    } //........................................vvvv just in case
-    if(getCell(x,y)===null)return;
+    }
+    if(getCell(x,y)===null)return; //............vvvv just in case
     if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==0).length)||c!='real click') return;
     //^ if this check passes, then flags around cell >= mines around cell, and it was clicked by the user, so chord
     for(let i=0;i<neighbourlib.length;i++){
