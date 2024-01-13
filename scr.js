@@ -68,8 +68,9 @@ const open_ = (x,y,c) => {
     minespots = [];
     isMine = undefined;
     document.querySelector('input[name="difficulty"]:checked').checked = false;
-    ms = timeEnd-timeStart;
-    document.getElementById('decimal').innerHTML = ms % 1000;
+    realtime = timeEnd-timeStart;
+    document.getElementById('timer').innerHTML = Math.floor(realtime / 1000);
+    document.getElementById('decimal').innerHTML = realtime % 1000;
     document.getElementById('decimal').classList.add('shown');
     return;
   };
@@ -103,8 +104,9 @@ const open_ = (x,y,c) => {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
     document.querySelector('input[name="difficulty"]:checked').checked = false;
     clearInterval(timer); gamestate = 'hooray';
-    ms = timeEnd-timeStart;
-    document.getElementById('decimal').innerHTML = ms % 1000;
+    realtime = timeEnd-timeStart;
+    document.getElementById('timer').innerHTML = Math.floor(realtime / 1000);
+    document.getElementById('decimal').innerHTML = realtime % 1000;
     document.getElementById('decimal').classList.add('shown');
   }
   //^ if amt of unopen cells = amt of mines on the board total then a winner is you
@@ -115,13 +117,13 @@ let timer;
 let time;
 let timeStart;
 let timeEnd;
-let ms;
+let realtime;
 const gameStart = (minecount,firstClickX,firstClickY) => {
   time = 0;
   timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
   gamestate = 'on';
   //^ restart a game if one is ongoing
-  let aray = []; let msp = [];
+  let aray = []; let realtimep = [];
   for(let v=0;v<width;v++) for(let g=0;g<height;g++) aray.push({"x":v,"y":g});
   // ^ makes an array of objects with every pair of x and y in range specified
   let i;
@@ -132,12 +134,12 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
     aray.splice(i,1);
   })
   // ^ and remove it. (does nothing for invalid input.)
-  for(let counter=minecount;counter>0;counter--) msp.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
+  for(let counter=minecount;counter>0;counter--) realtimep.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
   // ^ take n random elements from the array of {x,y} objects
-  minespots = msp;
+  minespots = realtimep;
   aray = [...Array(parseInt(height))].map(_=>Array(parseInt(width)).fill(0));
   // ^ make a matrix with all zeros of specified size
-  for(let l=0;l<minecount;l++) aray[msp[l].y][msp[l].x] = 1;
+  for(let l=0;l<minecount;l++) aray[realtimep[l].y][realtimep[l].x] = 1;
   // ^ on each iteration, change one number in the matrix to one according to arr of obj
   isMine = aray;
   timeStart = Date.now();
