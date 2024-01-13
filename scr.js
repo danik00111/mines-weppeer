@@ -31,9 +31,23 @@ const flag_ = (x,y) => {
     parseInt(document.getElementById('minecount').innerHTML) +
       (getCell(x,y).classList.contains('flag') ? -1 : 1)
 }
-const open_ = (x,y) => {
-  if(getCell(x,y).classList.contains('flag')||getCell(x,y).getAttribute("n")!==null||gamestate=='kaboom'||gamestate=='hooray')return;
+const open_ = (x,y,c) => {
+  if(x<0||y<0||x>width||y>height) return;
+
+  if(getCell(x,y).classList.contains('flag')||gamestate=='kaboom'||gamestate=='hooray')return;
   //^ return if h
+  if(getCell(x,y).getAttribute("n")!==null&&getCell(x,y).getAttribute("n")!=''){
+    let flagcount = [];
+    for(let i=0;i<neighbourlib.length;i++){
+      try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(1)}else{flagcount.push(0)}}catch(e){/*back out*/}
+    } //........................................vvvv just in case
+    if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==1).length)&&!c) return;
+    //^ if this check passes, then flags around cell >= mines around cell, and it was clicked by the user, so chord
+    for(let i=0;i<neighbourlib.length;i++){
+      if(!flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y)
+    }
+  }
+  //^ khord if the cell has enough flags around it
   if(gamestate=='waiting') gameStart(
     ((document.getElementById('custom').checked)
       ?(parseInt(document.getElementById('minecount').innerHTML))
@@ -123,7 +137,7 @@ const makeboard = (w,h,m) => {
     for(let j=0;j<w;j++){
       r = document.createElement('cell');
       r.setAttribute('pos',j);
-      r.setAttribute('onclick',`open_(${j},${i})`);
+      r.setAttribute('onclick',`open_(${j},${i},'real click')`);
       r.setAttribute('oncontextmenu',`flag_(${j},${i});return false`);
       g.appendChild(r);
     }
