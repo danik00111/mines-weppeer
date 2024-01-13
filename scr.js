@@ -25,15 +25,16 @@ const numbor = (x,y) => {
 let gamestate = 'waiting';
 let isMine;
 const flag_ = (x,y) => {
-  if(getCell(x,y).getAttribute("n")!==null||gamestate!='on')return;
+  if(gamestate!='on')return;
+  if(getCell(x,y).getAttribute("n")!==null){open_(x,y,'real click');return} /* shorthand to instead goto a chord check, allows chording with rbm */
   getCell(x,y).classList.toggle('flag');
   document.getElementById('minecount').innerHTML =
-    parseInt(document.getElementById('minecount').innerHTML) +
-      (getCell(x,y).classList.contains('flag') ? -1 : 1)
+  parseInt(document.getElementById('minecount').innerHTML) +
+  (getCell(x,y).classList.contains('flag') ? -1 : 1)
 }
 const open_ = (x,y,c) => {
   if(x<0||y<0||x>width||y>height) return;
-
+  
   if(getCell(x,y).classList.contains('flag')||gamestate=='kaboom'||gamestate=='hooray')return;
   //^ return if h
   if(getCell(x,y).getAttribute("n")!==null&&getCell(x,y).getAttribute("n")!=''){
