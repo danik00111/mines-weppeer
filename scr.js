@@ -101,7 +101,6 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
   // ^ and remove it. (does nothing for invalid input.)
   for(let counter=minecount;counter>0;counter--) msp.push(aray.splice(Math.floor(Math.random()*aray.length),1)[0]);
   // ^ take n random elements from the array of {x,y} objects
-  debugger;
   minespots = msp;
   aray = [...Array(parseInt(height))].map(_=>Array(parseInt(width)).fill(0));
   // ^ make a matrix with all zeros of specified size
