@@ -96,7 +96,8 @@ const open_ = (x,y,c) => {
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
-    clearInterval(timer); gamestate = 'yahoo';
+    document.querySelector('input[name="difficulty"]:checked').checked = false;
+    clearInterval(timer); gamestate = 'hooray';
   }
   //^ if amt of unopen cells = amt of mines on the board total then a winner is you
 }
