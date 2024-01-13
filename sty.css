@@ -1,21 +1,26 @@
 body{user-select:none}
+body.darkmode{background:#131415;color:white}
+body.darkmode :is(input, label){color:white}
 *{font-family:monospace;margin:0;padding:0;border:0;outline:0;box-sizing:border-box;text-align:center}
 #howtoplay{width:fit-content;margin:0 auto}
 #howtoplay a{text-decoration:underline;color:black}
+body.darkmode #howtoplay a{color:white}
 input[name="difficulty"]{width:0;height:0}
 input[name="difficulty"]:checked+label{color:blue}
 label{font-size:28px;cursor:pointer}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}/*all websites*/
 input[type="number"]{appearance:textfield;-moz-appearance:textfield}/*firfox*/
 input::placeholder{color:lightgrey}
-.setting,label{background:rgba(0,0,0,0.1);border-radius:4px}
+.setting,label{background:#0000001a;border-radius:4px}
+body.darkmode :is(.setting,label){background:#ffffff1a}
 #difficulty-select{display:flex;align-items:center;justify-content:center;margin:32px 0}
 #difficulty-select div{margin:4px}
 board{display:flex;flex-direction:column;align-items:center;justify-content:center}
 row{display:flex;align-items:center;justify-content:center}
 cell{background:gray;width:24px;height:24px;border-radius:6px;margin:1px}
 body:not(:has(.mine,.hooray)) cell:not([n])/*only present on closed cells except if game over screen*/{cursor:pointer}
-cell[n]/*only present on open cells*/{background-color:whitesmoke}
+cell[n]/*only present on open cells*/{background:whitesmoke}
+body.darkmode cell[n]/*only present on open cells*/{background:#232425}
 cell:after{content:attr(n);font-weight:bold;font-size:18px;line-height:24px;}
 cell[n="1"]:after{color:dodgerblue}
 cell[n="2"]:after{color:palegreen}
@@ -25,8 +30,8 @@ cell[n="5"]:after{color:maroon}
 cell[n="6"]:after{color:mediumturquoise}
 cell[n="7"]:after{color:black}
 cell[n="8"]:after{color:gray}
-cell.flag{background:slategray;cursor:default}
+cell.flag{background:orange;cursor:default}
 cell.hooray{background:greenyellow}
-cell.mine{background:orange}
-cell.explo{background:red/*overrides the ornage above*/}
+cell.mine{background:red}
+cell.explo{background:darkred/*overrides the ornage above*/}
 input:disabled{opacity:0.5;cursor:default}
