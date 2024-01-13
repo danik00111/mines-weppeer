@@ -150,4 +150,4 @@ const makeboard = (w,h,m) => {
   }
 }
 makeboard(16,16,40) // this option is checked on website load
-window.addEventListener('beforeunload',e=>{if(gamestate='on'){e.preventDefault();e.returnValue=''}});
+window.addEventListener('beforeunload',e=>{if(gamestate=='on'){e.preventDefault();e.returnValue=''}});
