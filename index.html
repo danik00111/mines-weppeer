@@ -37,6 +37,7 @@
       </div>
     </div>
     <board oncontextmenu="return false"></board>
+    <div id="quickend" onclick="document.querySelectorAll('cell:not(.flag)').forEach(e=>{if(e.getAttribute('n')===null)e.click()})">Open All Unflagged Cells</div>
     <div id="numbers" style="font-size:24px;margin:12px 0">
       <span id="minecount">40</span>
       <span>🚩 ⏰</span>

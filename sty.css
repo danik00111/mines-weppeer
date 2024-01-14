@@ -40,3 +40,5 @@ input:disabled{opacity:0.5;cursor:default}
 #decimal{font-size:0.5em;opacity:0.5}
 #decimal:not(.shown){display:none}
 #decimal:before{content:'.'}
+#quickend{display:none;width:fit-content;margin:12px auto;border-radius:4px;background:#80808080;border-radius:4px;padding:2px;cursor:pointer}
+#quickend.shown{display:block}

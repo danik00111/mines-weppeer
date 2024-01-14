@@ -26,11 +26,13 @@ let gamestate = 'waiting';
 let isMine;
 const flag_ = (x,y) => {
   if(gamestate!='on')return;
+  document.getElementById('quickend').classList.remove('shown')
   if(getCell(x,y).getAttribute("n")!==null){open_(x,y,'real click');return} /* shorthand to instead goto a chord check, allows chording with rbm */
   getCell(x,y).classList.toggle('flag');
   document.getElementById('minecount').innerHTML =
   parseInt(document.getElementById('minecount').innerHTML) +
   (getCell(x,y).classList.contains('flag') ? -1 : 1)
+  if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
 }
 const open_ = (x,y,c) => {
   if(x<0||y<0||x>width||y>height)return;
@@ -61,6 +63,7 @@ const open_ = (x,y,c) => {
   //^ start the game if its the first click
   if(isMine[y][x]){
     timeEnd = Date.now();
+    document.getElementById('quickend').classList.remove('shown')
     clearInterval(timer);
     time=0;
     gamestate = 'kaboom';
@@ -102,6 +105,7 @@ const open_ = (x,y,c) => {
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
     timeEnd = Date.now();
+    document.getElementById('quickend').classList.remove('shown')
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('hooray');
     document.querySelector('input[name="difficulty"]:checked').checked = false;
     clearInterval(timer); gamestate = 'hooray';
