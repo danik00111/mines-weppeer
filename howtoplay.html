@@ -8,10 +8,10 @@
 </head>
 <body style="font-family:monospace;font-size:0.9vw;background:black;color:white">
   A rectangular board is generated, with mines spread out on it randomly. You know how much mines there are, but don't know <i>where</i> they are.<br>
-  Left-lick any of the cells - your first click is guarranteed to be safe, on top of that, it will always open a "zero" in this minesweeper clone.<br>
-  Opening a cell without a mine will show you a number, denoting how much of the eight cells around this cell contain a mine.<br>
-  Empty = 0, and it opens all cells around it (often triggering a chain reaction).<br>
-  Right click a cell to  "flag" it, to mark it as a mine, that way you won't accidentally open that cell, if you click it. Right-click a flagged mine to unflag it.<br>
+  Left-click any of the cells - your first click is guarranteed to be safe, on top of that, it will always open a "zero" in this minesweeper clone.<br>
+  Opening a cell without a mine will show you a number, denoting the total amount of mines around this cell.<br>
+  No number = 0, and it opens all cells around it (often triggering a chain reaction).<br>
+  Right click a cell to  "flag" it, to mark it as a mine, that way you won't accidentally open that cell, if you click it. Right-click a flagged cell to unflag it.<br>
   Using logical deduction, open every safe cell without opening a cell with a mine.<br>
   <br>
   e.g., If a cell with a 1 has only one unopen cell near it, that cell has to be a mine - you can flag it.<br>
