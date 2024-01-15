@@ -4,6 +4,18 @@ document.addEventListener('click',()=>{
   document.querySelector('input#height').disabled = idek;
   document.querySelector('input#mines').disabled = idek;
 });
+document.addEventListener('keypress',e=>{
+  if(e.key=='z') document.getElementById('toggle-zerg').click();
+  if(e.key=='l') document.getElementById('toggle-rbmlock').click();
+  if(e.key=='t') document.getElementById('toggle-darkmode').click();
+  if(e.key=='?') document.getElementById('hotkeys').classList.toggle('shown');
+  if(gamestate != 'on'){
+    if(e.key=='b') document.getElementById('beginner').click();
+    if(e.key=='i') document.getElementById('intermediate').click();
+    if(e.key=='x') document.getElementById('expert').click();
+    if(e.key=='c') document.getElementById('custom').click();
+  }
+});
 const getCell=(x,y)=>document.querySelector(`row[pos="${y}"] cell[pos="${x}"]`);
 const neighbourlib = [
   {x:-1,y:-1},
@@ -15,6 +27,26 @@ const neighbourlib = [
   {x: 1,y:-1},
   {x: 0,y:-1},
 ];
+const vinReEval = () => {
+  let count;
+  [...document.querySelectorAll('cell[n]:not(n="")')].forEach(e=>{
+    count = 0;
+    for(let i=0;i<neighbourlib.length;i++)try{
+      if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++;
+      if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains("flag")) count--;
+    }catch(e){/*ignore error*/}
+    e.setAttribute("vin",count);
+  })
+}
+const flagReEval = () => {document.getElementById('minecount').innerHTML=minespots.length-[...document.querySelectorAll('cell.flag')].length;if(document.getElementById('minecount').innerHTML=='0')document.getElementById('quickend').classList.add('shown')}
+const zumbor = (x,y) => {
+  let count = 0;
+  for(let i=0;i<neighbourlib.length;i++)try{
+    if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++;
+    if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains("flag")) count--;
+  }catch(e){/*ignore error*/}
+  return count;
+}
 const numbor = (x,y) => {
   let count = 0;
   for(let i=0;i<neighbourlib.length;i++)try{
@@ -24,6 +56,7 @@ const numbor = (x,y) => {
 }
 let gamestate = 'waiting';
 let isMine;
+let quickend = false;
 const flag_ = (x,y) => {
   if(gamestate!='on')return;
   document.getElementById('quickend').classList.remove('shown')
@@ -33,10 +66,16 @@ const flag_ = (x,y) => {
   parseInt(document.getElementById('minecount').innerHTML) +
   (getCell(x,y).classList.contains('flag') ? -1 : 1)
   if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
+  let idke;
+  debugger;
+  for(let i=0;i<neighbourlib.length;i++){try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")!==null){
+    idke = parseInt(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("vin"));
+    getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).setAttribute("vin",idke+(getCell(x,y).classList.contains('flag')?-1:1));
+  }}catch(e){/*ignore error*/}};
 }
 const open_ = (x,y,c) => {
   if(x<0||y<0||x>width||y>height)return;
-  if(c=='real click'&&rbmlock&&gamestate=='on'&&getCell(x,y).getAttribute('n')===null){flag_(x,y);return}
+  if(c=='real click'&&rbmlock&&!quickend&&gamestate=='on'&&getCell(x,y).getAttribute('n')===null){flag_(x,y);return}
   
   if(getCell(x,y).classList.contains('flag')||gamestate=='kaboom'||gamestate=='hooray')return;
   //^ return if h
@@ -80,9 +119,11 @@ const open_ = (x,y,c) => {
   };
   //^ blow the player's house up if they click a mine
   if(numbor(x,y)>0){
-    getCell(x,y).setAttribute("n",numbor(x,y)); // i couldve just done a `count || ''`, but i need to stuff more logic inside this
+    getCell(x,y).setAttribute("n",numbor(x,y));
+    getCell(x,y).setAttribute("vin",zumbor(x,y));
   } else {
     getCell(x,y).setAttribute("n",'');
+    getCell(x,y).setAttribute("vin",'');
     const queue=[{x,y}];
     while(queue.length){
       const{x:cX,y:cY}=queue.shift();
@@ -91,16 +132,20 @@ const open_ = (x,y,c) => {
         const nY=cY+neighbourlib[i].y;
         if((nX>=0)&&(nY>=0)&&(nX<width)&&(nY<height))if((getCell(nX,nY).getAttribute('n')===null)){
           const nC=numbor(nX,nY);
+          const zC=zumbor(nX,nY);
           if(nC>0){
-            getCell(nX,nY).setAttribute('n',nC.toString())
+            getCell(nX,nY).setAttribute("n",nC)
+            getCell(nX,nY).setAttribute("vin",zC)
           }else{
-            getCell(nX,nY).setAttribute('n','');
+            getCell(nX,nY).setAttribute("n",'');
+            getCell(nX,nY).setAttribute("vin",'');
             queue.push({"x":nX,"y":nY});
           }
         }
         try{getCell(nX,nY).classList.remove('flag')}catch(e){/*ignore and opt out*/};
       }
     }
+    flagReEval();
   }
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
@@ -160,13 +205,13 @@ const makeboard = (w,h,m) => {
   document.querySelector('board').innerHTML='';
   for(let i=0;i<h;i++){
     g = document.createElement('row');
-    g.setAttribute('pos',i);
+    g.setAttribute("pos",i);
     g = document.querySelector('board').appendChild(g);
     for(let j=0;j<w;j++){
       r = document.createElement('cell');
-      r.setAttribute('pos',j);
-      r.setAttribute('onclick',`open_(${j},${i},'real click')`);
-      r.setAttribute('oncontextmenu',`flag_(${j},${i});return false`);
+      r.setAttribute("pos",j);
+      r.setAttribute("onclick",`open_(${j},${i},'real click')`);
+      r.setAttribute("oncontextmenu",`flag_(${j},${i});return false`);
       g.appendChild(r);
     }
   }
