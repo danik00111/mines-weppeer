@@ -13,9 +13,9 @@
   <p style="opacity:0.1;font-size:0.75em">if you see a bug, open a git issue at <a id=togithub href="https://github.com/danik00111/mines-weppeer">danik00111/mines-weppeer</a></p>
   <main>
     <div id="difficulty-select">
-      <div><input type="radio" mien="10" name="difficulty" onchange="document.getElementById('minecount').innerHTML=10;makeboard(9, 9, 10)" id="beginner"><label for="beginner" title="9&times;9/10">Beginner</label></div>
-      <div><input type="radio" mien="40" name="difficulty" onchange="document.getElementById('minecount').innerHTML=40;makeboard(16,16,40)" id="intermediate" checked><label for="intermediate" title="16&times;16/40">Intermediate</label></div>
-      <div><input type="radio" mien="99" name="difficulty" onchange="document.getElementById('minecount').innerHTML=99;makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16/99">Expert</label></div>
+      <div><input type="radio" mien="10" name="difficulty" onchange="document.getElementById('minecount').innerHTML=10;makeboard(9, 9, 10)" id="beginner"><label for="beginner" title="9&times;9&10">Beginner</label></div>
+      <div><input type="radio" mien="40" name="difficulty" onchange="document.getElementById('minecount').innerHTML=40;makeboard(16,16,40)" id="intermediate" checked><label for="intermediate" title="16&times;16&40">Intermediate</label></div>
+      <div><input type="radio" mien="99" name="difficulty" onchange="document.getElementById('minecount').innerHTML=99;makeboard(30,16,99)" id="expert"><label for="expert" title="30&times;16&99">Expert</label></div>
       <div><input type="radio" name="difficulty"
         onchange="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);document.getElementById('minecount').innerHTML=document.getElementById('mines').value"
         id="custom"><label for="custom">Custom...</label></div>
@@ -28,7 +28,7 @@
           oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);
           document.getElementById('height').style.width = document.getElementById('height').value.length + 'ch';
           if(document.getElementById('height').style.width == '0ch') document.getElementById('height').style.width = '6ch'"
-        >/<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32"
+        >&<input       type="number" disabled style="width:2ch" class="setting" placeholder="Mines"  name="mines"  id="mines"  min="2" max="199" value="32"
           oninput="makeboard(document.getElementById('width').value,document.getElementById('height').value,document.getElementById('mines').value);
           document.getElementById('mines').style.width = document.getElementById('mines').value.length + 'ch';
           if(document.getElementById('mines').style.width == '0ch') document.getElementById('mines').style.width = '5ch'
@@ -37,7 +37,7 @@
       </div>
     </div>
     <board oncontextmenu="return false"></board>
-    <div id="quickend" onclick="let wasrbmlock=false;if(rbmlock){rbmlock=false;wasrbmlock=true}document.querySelectorAll('cell:not(.flag)').forEach(e=>{if(e.getAttribute('n')===null)e.click()});rbmlock=wasrbmlock">Open All Unflagged Cells</div>
+    <div id="quickend" onclick="document.querySelectorAll('cell:not(.flag)').forEach(e=>{if(e.getAttribute('n')===null)e.click()})">Open All Unflagged Cells</div>
     <div id="numbers" style="font-size:24px;margin:12px 0">
       <span id="minecount">40</span>
       <span>🚩 ⏰</span>
@@ -47,10 +47,9 @@
   <div id="toggle-darkmode" onclick="document.body.classList.toggle('darkmode');sessionStorage.setItem('mines-weppeer-darkmode',document.body.classList.contains('darkmode'))" style="cursor:pointer;position:fixed;bottom:2em;right:4em;background:#80808080;border-radius:4px;padding:2px">Toggle Theme</div>
   <script>let rbmlock = false;</script><style>.glow{box-shadow:0 0 16px 0 greenyellow}</style>
   <div id="toggle-rbmlock" title=
-  "TL;DR Your LBM becomes RBM. If this is glowing, then it's on.
-  With this on, you can only flag unopen cells, and chord open cells with enough flags nearby." onclick="rbmlock=!rbmlock;sessionStorage.setItem('mines-weppeer-rbmlock',rbmlock);if(rbmlock){document.getElementById('toggle-rbmlock').classList.add('glow')}else{document.getElementById('toggle-rbmlock').classList.remove('glow')}"
-  style="cursor:pointer;position:fixed;bottom:2em;left:4em;background:#80808080;border-radius:4px;padding:2px">Toggle RBM-Lock</div>
-  <div id="toggle-zerg" title="With this on, numbers will show the amount of mines near, *minus* the amount of flags near. Their color will stay the same, though. Try not to get confused!" onclick="document.getElementById('toggle-zerg').classList.toggle('glow');reRender();" style="cursor:pointer;position:fixed;bottom:4em;left:4em;background:#80808080;border-radius:4px;padding:2px">Zerg</div>
+"TL;DR Your LBM becomes RBM. If this is glowing, then it's on.
+With this on, you can only flag unopen cells, and chord open cells with enough flags nearby." onclick="rbmlock=!rbmlock;sessionStorage.setItem('mines-weppeer-rbmlock',rbmlock);if(rbmlock){document.getElementById('toggle-rbmlock').classList.add('glow')}else{document.getElementById('toggle-rbmlock').classList.remove('glow')}"
+    style="cursor:pointer;position:fixed;bottom:2em;left:4em;background:#80808080;border-radius:4px;padding:2px">Toggle RBM-Lock</div>
   <script>if(sessionStorage.getItem('mines-weppeer-rbmlock')=='true')document.getElementById('toggle-rbmlock').click();if(sessionStorage.getItem('mines-weppeer-darkmode')=='true'||window.matchMedia("(prefers-color-scheme: dark)").matches)document.getElementById('toggle-darkmode').click();</script>
   <script src="./scr.js"></script>
 </body>
