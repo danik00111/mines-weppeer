@@ -47,6 +47,11 @@ const reRender = () => {
     } else e.setAttribute("vi-n",(numbor(x,y)||''));
   })
 }
+const flagReEval = () => {
+  if(gamestate != 'on') return;
+  document.getElementById('minecount').innerHTML = [...document.querySelectorAll('cell.flag')].length;
+  if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
+}
 let gamestate = 'waiting';
 let isMine;
 const flag_ = (x,y) => {
@@ -87,6 +92,7 @@ const open_ = (x,y,c) => {
         if(flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y,'chording')
       }
     }
+    flagReEval(); // just in case, to stop a rare bug
   }
   //^ khord if the cell has enough flags around it
   if(gamestate=='waiting') gameStart(
@@ -141,6 +147,7 @@ const open_ = (x,y,c) => {
         try{getCell(nX,nY).classList.remove('flag')}catch(e){/*ignore and opt out*/};
       }
     }
+    flagReEval(); // just in case, to stop a rare bug
   }
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
