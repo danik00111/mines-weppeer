@@ -1,5 +1,5 @@
 body{user-select:none;scroll-behavior:auto;overscroll-behavior:none;overflow-x:hidden}
-body.darkmode{background:#131415;color:white}
+body.darkmode{background:black;color:white}
 body.darkmode :is(input, label){color:white}
 #togithub{color:inherit;text-decoration:none}
 #togithub:hover{text-decoration:underline}
@@ -32,8 +32,8 @@ cell[n="3"]:after{color:red}
 cell[n="4"]:after{color:purple}
 cell[n="5"]:after{color:maroon}
 cell[n="6"]:after{color:mediumturquoise}
-cell[n="7"]:after{color:black}
-cell[n="8"]:after{color:gray}
+cell[n="7"]:after{color:darkorange}
+cell[n="8"]:after{color:mediumblue}
 cell.flag{background:orange;cursor:default}
 cell.hooray{background:greenyellow}
 cell.mine{background:red}
