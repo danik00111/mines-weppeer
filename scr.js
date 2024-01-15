@@ -49,7 +49,7 @@ const reRender = () => {
 }
 const flagReEval = () => {
   if(gamestate != 'on') return;
-  document.getElementById('minecount').innerHTML = [...isMine].map(x=>x.reduce((a,v)=>(a+v),0)).reduce((a,v)=>(a+v),0) - [...document.querySelectorAll('cell.flag')].length;
+  document.getElementById('minecount').innerHTML = minespots.length - [...document.querySelectorAll('cell.flag')].length;
   if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
 }
 let gamestate = 'waiting';
@@ -109,8 +109,6 @@ const open_ = (x,y,c) => {
     gamestate = 'kaboom';
     getCell(x,y).classList.add('explo');
     for(let i=0;i<minespots.length;i++)getCell(minespots[i].x,minespots[i].y).classList.add('mine');
-    minespots = [];
-    isMine = undefined;
     document.querySelector('input[name="difficulty"]:checked').checked = false;
     realtime = timeEnd-timeStart;
     document.getElementById('timer').innerHTML = Math.floor(realtime / 1000);
@@ -199,7 +197,7 @@ const gameStart = (minecount,firstClickX,firstClickY) => {
 let width; let height;
 const makeboard = (w,h,m) => {
   width = w; height = h;
-  gamestate = 'waiting'; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
+  gamestate = 'waiting'; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
   document.getElementById('decimal').classList.remove('shown');
   w = parseInt(w); h = parseInt(h); m = parseInt(m);
   if((w<3)||(h<3)||((m+10)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
