@@ -15,12 +15,37 @@ const neighbourlib = [
   {x: 1,y:-1},
   {x: 0,y:-1},
 ];
+const zergnumbor = (x,y) => {
+  let count = 0;
+  for(let i=0;i<neighbourlib.length;i++)try{
+    if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++
+    if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains("flag")) count--;
+  }catch(e){/*ignore error*/}
+  return count;
+}
 const numbor = (x,y) => {
   let count = 0;
   for(let i=0;i<neighbourlib.length;i++)try{
     if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++
   }catch(e){/*ignore error*/}
   return count;
+}
+const reRender = () => {
+  let x; let y; let count;
+  [...document.querySelectorAll('cell[n]')].forEach(e=>{
+    x = parseInt(e.getAttribute("pos"));
+    y = parseInt(e.parentElement.getAttribute("pos"));
+    if(document.getElementById('toggle-zerg').classList.contains('glow')) {
+      count = numbor(x,y);
+      if(e.getAttribute("n")=='') {e.setAttribute("vi-n",'')} else {
+        for(let i=0;i<neighbourlib.length;i++)
+          try{
+            if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag'))count--
+          }catch(er){};
+        e.setAttribute("vi-n",count);
+      }
+    } else e.setAttribute("vi-n",(numbor(x,y)||''));
+  })
 }
 let gamestate = 'waiting';
 let isMine;
@@ -30,9 +55,18 @@ const flag_ = (x,y) => {
   if(getCell(x,y).getAttribute("n")!==null){open_(x,y,'real click');return} /* shorthand to instead goto a chord check, allows chording with rbm */
   getCell(x,y).classList.toggle('flag');
   document.getElementById('minecount').innerHTML =
-  parseInt(document.getElementById('minecount').innerHTML) +
-  (getCell(x,y).classList.contains('flag') ? -1 : 1)
+    parseInt(document.getElementById('minecount').innerHTML) +
+    (getCell(x,y).classList.contains('flag') ? -1 : 1);
   if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
+  if(document.getElementById('toggle-zerg').classList.contains('glow')) {
+    for(let i=0;i<neighbourlib.length;i++) {
+      try{
+        if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")!==null){
+          getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).setAttribute("vi-n",zergnumbor(x+neighbourlib[i].x,y+neighbourlib[i].y));
+        }
+      }catch(e){}
+    }
+  }
 }
 const open_ = (x,y,c) => {
   if(x<0||y<0||x>width||y>height)return;
@@ -79,9 +113,12 @@ const open_ = (x,y,c) => {
     return;
   };
   //^ blow the player's house up if they click a mine
+  let iszerg = document.getElementById('toggle-zerg').classList.contains('glow');
   if(numbor(x,y)>0){
-    getCell(x,y).setAttribute("n",numbor(x,y)); // i couldve just done a `count || ''`, but i need to stuff more logic inside this
+    getCell(x,y).setAttribute("vi-n",iszerg ? zergnumbor(x,y) : numbor(x,y));
+    getCell(x,y).setAttribute("n",numbor(x,y));
   } else {
+    getCell(x,y).setAttribute("vi-n",'');
     getCell(x,y).setAttribute("n",'');
     const queue=[{x,y}];
     while(queue.length){
@@ -91,9 +128,12 @@ const open_ = (x,y,c) => {
         const nY=cY+neighbourlib[i].y;
         if((nX>=0)&&(nY>=0)&&(nX<width)&&(nY<height))if((getCell(nX,nY).getAttribute('n')===null)){
           const nC=numbor(nX,nY);
+          const nZC=zergnumbor(nX,nY);
           if(nC>0){
+            getCell(nX,nY).setAttribute('vi-n',iszerg ? nZC.toString() : nC.toString());
             getCell(nX,nY).setAttribute('n',nC.toString())
           }else{
+            getCell(nX,nY).setAttribute('vi-n','');
             getCell(nX,nY).setAttribute('n','');
             queue.push({"x":nX,"y":nY});
           }
