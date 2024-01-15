@@ -49,7 +49,7 @@ const reRender = () => {
 }
 const flagReEval = () => {
   if(gamestate != 'on') return;
-  document.getElementById('minecount').innerHTML = [...document.querySelectorAll('cell.flag')].length;
+  document.getElementById('minecount').innerHTML = [...isMine].map(x=>x.reduce((a,v)=>(a+v),0)).reduce((a,v)=>(a+v),0) - [...document.querySelectorAll('cell.flag')].length;
   if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
 }
 let gamestate = 'waiting';
