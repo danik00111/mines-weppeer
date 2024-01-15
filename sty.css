@@ -1,5 +1,5 @@
-body{user-select:none;scroll-behavior:auto;overscroll-behavior:none;overflow-x:hidden}
-body.darkmode{background:black;color:white}
+body{user-select:none;scroll-behavior:none;overscroll-behavior:none;overflow-x:hidden}
+body.darkmode{background:#131415;color:white}
 body.darkmode :is(input, label){color:white}
 #togithub{color:inherit;text-decoration:none}
 #togithub:hover{text-decoration:underline}
@@ -7,11 +7,8 @@ body.darkmode :is(input, label){color:white}
 #howtoplay{width:fit-content;margin:0 auto}
 #howtoplay a{text-decoration:underline;color:black}
 body.darkmode #howtoplay a{color:white}
-input[name="difficulty"]{width:0;height:0;}
+input[name="difficulty"]{width:0;height:0}
 input[name="difficulty"]:checked+label{color:blue}
-body:not(:has(#custom:checked)) #custom-settings{display:none}
-#custom-settings{font-size:2em}
-#custom-settings input{font-size:1em}
 label{font-size:28px;cursor:pointer}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}/*all websites*/
 input[type="number"]{appearance:textfield;-moz-appearance:textfield}/*firfox*/
@@ -22,10 +19,11 @@ body.darkmode :is(.setting,label){background:#ffffff1a}
 #difficulty-select div{margin:4px}
 board{margin: 0 auto;padding:0 32px;width:fit-content;max-width:calc(80vw + 32px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;overflow-x:scroll}
 row{display:flex;align-items:center;justify-content:center}
-cell{width:24px;height:24px;border-radius:6px;margin:1px}
-cell:not([vi-n])/*only present on closed cells */{background:gray}
-body:not(:has(.mine,.hooray)) cell:not([vi-n])/*only present on closed cells except if game over screen*/{cursor:pointer}
-cell:after{content:attr(vi-n);font-weight:bold;font-size:18px;line-height:24px;}
+cell{background:gray;width:24px;height:24px;border-radius:6px;margin:1px}
+body:not(:has(.mine,.hooray)) cell:not([n])/*only present on closed cells except if game over screen*/{cursor:pointer}
+cell[n]/*only present on open cells*/{background:whitesmoke}
+body.darkmode cell[n]/*only present on open cells*/{background:#232425}
+cell:after{content:attr(n);font-weight:bold;font-size:18px;line-height:24px;}
 cell[n="1"]:after{color:dodgerblue}
 cell[n="2"]:after{color:palegreen}
 cell[n="3"]:after{color:red}
@@ -38,6 +36,7 @@ cell.flag{background:orange;cursor:default}
 cell.hooray{background:greenyellow}
 cell.mine{background:red}
 cell.explo{background:darkred/*overrides the ornage above*/}
+input:disabled{opacity:0.5;cursor:default}
 #decimal{font-size:0.5em;opacity:0.5}
 #decimal:not(.shown){display:none}
 #decimal:before{content:'.'}
