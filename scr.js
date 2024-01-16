@@ -146,6 +146,7 @@ const open_ = (x,y,c) => {
       }
     }
     flagReEval();
+    vinReEval();
   }
   //^ display the numbor, and if it's a 0, trigger a nuclear chain reaction
   if([...document.querySelectorAll('cell:not([n])')].length == minespots.length) {
