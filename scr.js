@@ -9,12 +9,15 @@ document.addEventListener('keypress',e=>{
   if(e.key=='l') document.getElementById('toggle-rbmlock').click();
   if(e.key=='t') document.getElementById('toggle-darkmode').click();
   if(e.key=='?') document.getElementById('hotkeys').classList.toggle('shown');
+  if(e.key=='.') try{document.querySelector(':is(#difficulty-select label,cell):hover').click()}catch(_){};
+  if(e.key=='Enter') try{document.querySelector('#quickend.shown').click()}catch(_){};
   if(gamestate != 'on'){
     if(e.key=='b') document.getElementById('beginner').click();
     if(e.key=='i') document.getElementById('intermediate').click();
     if(e.key=='x') document.getElementById('expert').click();
     if(e.key=='c') document.getElementById('custom').click();
   }
+  console.log(e.key)
 });
 const getCell=(x,y)=>document.querySelector(`row[pos="${y}"] cell[pos="${x}"]`);
 const neighbourlib = [
@@ -28,13 +31,16 @@ const neighbourlib = [
   {x: 0,y:-1},
 ];
 const vinReEval = () => {
-  let count;
-  [...document.querySelectorAll('cell[n]:not(n="")')].forEach(e=>{
+  let count; let x; let y; let dbg = true;
+  [...document.querySelectorAll('cell[n]:not([n=""])')].forEach(e=>{
+    if(dbg){debugger;dbg=false}
     count = 0;
+    x = parseInt(e.getAttribute('pos'));
+    y = parseInt(e.parentElement.getAttribute('pos'));
     for(let i=0;i<neighbourlib.length;i++)try{
       if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++;
       if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains("flag")) count--;
-    }catch(e){/*ignore error*/}
+    }catch(_){/*ignore error*/}
     e.setAttribute("vin",count);
   })
 }
@@ -44,14 +50,14 @@ const zumbor = (x,y) => {
   for(let i=0;i<neighbourlib.length;i++)try{
     if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++;
     if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains("flag")) count--;
-  }catch(e){/*ignore error*/}
+  }catch(_){/*ignore error*/}
   return count;
 }
 const numbor = (x,y) => {
   let count = 0;
   for(let i=0;i<neighbourlib.length;i++)try{
     if(isMine[y+neighbourlib[i].y][x+neighbourlib[i].x])count++
-  }catch(e){/*ignore error*/}
+  }catch(_){/*ignore error*/}
   return count;
 }
 let gamestate = 'waiting';
@@ -67,11 +73,10 @@ const flag_ = (x,y) => {
   (getCell(x,y).classList.contains('flag') ? -1 : 1)
   if(document.getElementById('minecount').innerHTML=='0') document.getElementById('quickend').classList.add('shown');
   let idke;
-  debugger;
   for(let i=0;i<neighbourlib.length;i++){try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")!==null){
     idke = parseInt(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("vin"));
     getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).setAttribute("vin",idke+(getCell(x,y).classList.contains('flag')?-1:1));
-  }}catch(e){/*ignore error*/}};
+  }}catch(_){/*ignore error*/}};
 }
 const open_ = (x,y,c) => {
   if(x<0||y<0||x>width||y>height)return;
@@ -82,7 +87,7 @@ const open_ = (x,y,c) => {
   if(getCell(x,y).getAttribute("n")!==null&&getCell(x,y).getAttribute("n")!=''){
     let flagcount = [];
     for(let i=0;i<neighbourlib.length;i++){
-      try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(0)}else{flagcount.push(1)}}catch(e){flagcount.push(1)}
+      try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(0)}else{flagcount.push(1)}}catch(_){flagcount.push(1)}
     }
     if(getCell(x,y)===null)return; //............vvvv just in case
     if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==0).length)||c!='real click') return;
@@ -142,7 +147,7 @@ const open_ = (x,y,c) => {
             queue.push({"x":nX,"y":nY});
           }
         }
-        try{getCell(nX,nY).classList.remove('flag')}catch(e){/*ignore and opt out*/};
+        try{getCell(nX,nY).classList.remove('flag')}catch(_){/*ignore and opt out*/};
       }
     }
     flagReEval();
