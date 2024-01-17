@@ -44,7 +44,7 @@ const vinReEval = () => {
     e.setAttribute("vin",count);
   })
 }
-const flagReEval = () => {document.getElementById('minecount').innerHTML=minespots.length-[...document.querySelectorAll('cell.flag')].length;if(document.getElementById('minecount').innerHTML=='0')document.getElementById('quickend').classList.add('shown')}
+const flagReEval = () => {document.getElementById('minecount').innerHTML=minespots.length-[...document.querySelectorAll('cell.flag')].length;if(document.getElementById('minecount').innerHTML=='0'&&gamestate=='on')document.getElementById('quickend').classList.add('shown')}
 const zumbor = (x,y) => {
   let count = 0;
   for(let i=0;i<neighbourlib.length;i++)try{
