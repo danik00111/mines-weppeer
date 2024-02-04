@@ -166,11 +166,11 @@ cell[n="6"]:after {
 }
 
 cell[n="7"]:after {
-  color: darkorange;
+  color: mediumblue;
 }
 
 cell[n="8"]:after {
-  color: mediumblue;
+  color: darkorange;
 }
 
 cell.flag {
