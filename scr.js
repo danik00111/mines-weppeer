@@ -224,7 +224,7 @@ const makeboard = (w,h,m) => {
   gamestate = 'waiting'; isMine = undefined; time = 0; clearInterval(timer); document.getElementById('timer').innerHTML = 0;
   document.getElementById('decimal').classList.remove('shown');
   w = parseInt(w); h = parseInt(h); m = parseInt(m);
-  if((w<3)||(h<3)||((m+10)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
+  if((w<3)||(h<3)||((m+neighbourlib.length+2)>(w*h))||(m<2)||(isNaN(w))||(isNaN(h))||(isNaN(m))){
     document.querySelector('board').innerHTML='<h1>INVALID INPUT???</h1>';return}
   document.querySelector('board').innerHTML='';
   for(let i=0;i<h;i++){
