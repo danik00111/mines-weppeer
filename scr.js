@@ -189,6 +189,10 @@ let timeStart;
 let timeEnd;
 let realtime;
 const gameStart = (minecount,firstClickX,firstClickY) => {
+  if(firstClickX===0)firstClickX=1;
+  if(firstClickY===0)firstClickY=1;
+  if(firstClickX===width-1)firstClickX=width-2;
+  if(firstClickY===height-1)firstClickY=height-2;
   time = 0;
   timer = setInterval(()=>{time++;document.getElementById('timer').innerHTML=time},1000);
   gamestate = 'on';
