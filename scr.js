@@ -17,7 +17,6 @@ document.addEventListener('keypress',e=>{
     if(e.key=='x') document.getElementById('expert').click();
     if(e.key=='c') document.getElementById('custom').click();
   }
-  console.log(e.key)
 });
 const getCell=(x,y)=>document.querySelector(`row[pos="${y}"] cell[pos="${x}"]`);
 const neighbourlib = [
@@ -31,9 +30,8 @@ const neighbourlib = [
   {x: 0,y:-1},
 ];
 const vinReEval = () => {
-  let count; let x; let y; let dbg = true;
+  let count; let x; let y;
   [...document.querySelectorAll('cell[n]:not([n=""])')].forEach(e=>{
-    if(dbg){debugger;dbg=false}
     count = 0;
     x = parseInt(e.getAttribute('pos'));
     y = parseInt(e.parentElement.getAttribute('pos'));
@@ -86,19 +84,35 @@ const open_ = (x,y,c) => {
   //^ return if h
   if(getCell(x,y).getAttribute("n")!==null&&getCell(x,y).getAttribute("n")!=''){
     let flagcount = [];
+    let closedcount = [];
     for(let i=0;i<neighbourlib.length;i++){
-      try{if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag')){flagcount.push(0)}else{flagcount.push(1)}}catch(_){flagcount.push(1)}
-    }
+      try{
+        if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag'))
+          {flagcount.push(0)}else{flagcount.push(1)}
+      }catch(_){flagcount.push(1)};
+      try{
+        if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)
+          {closedcount.push(0)}else{closedcount.push(1)}
+      }catch(_){closedcount.push(1)};
+    };
     if(getCell(x,y)===null)return; //............vvvv just in case
+    if((parseInt(getCell(x,y).getAttribute("n"))==[...closedcount].filter(x=>x==0).length)&&c=='real click') {
+      //^ if this check passes, then flags around cell == unopens around cell, and it was clicked by the user, so flagchord
+      for(let i=0;i<neighbourlib.length;i++)
+        if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y)!==null)
+          if((!closedcount[i])&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null
+            &&!getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).classList.contains('flag'))
+              flag_(x+neighbourlib[i].x,y+neighbourlib[i].y)
+      return;
+    }
     if((parseInt(getCell(x,y).getAttribute("n"))>[...flagcount].filter(x=>x==0).length)||c!='real click') return;
     //^ if this check passes, then flags around cell >= mines around cell, and it was clicked by the user, so chord
-    for(let i=0;i<neighbourlib.length;i++){
-      if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y)!==null){
-        if(flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)open_(x+neighbourlib[i].x,y+neighbourlib[i].y,'chording')
-      }
-    }
+    for(let i=0;i<neighbourlib.length;i++)
+      if(getCell(x+neighbourlib[i].x,y+neighbourlib[i].y)!==null)
+        if(flagcount[i]&&getCell(x+neighbourlib[i].x,y+neighbourlib[i].y).getAttribute("n")===null)
+          open_(x+neighbourlib[i].x,y+neighbourlib[i].y,'chording')
   }
-  //^ khord if the cell has enough flags around it
+  //^ khord if the cell has enough flags around it (also has flagkhord!)
   if(gamestate=='waiting') gameStart(
     ((document.getElementById('custom').checked)
       ?(parseInt(document.getElementById('minecount').innerHTML))
