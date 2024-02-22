@@ -6,7 +6,7 @@ document.addEventListener('click',()=>{
 });
 document.addEventListener('keypress',e=>{
   if(e.key=='z') document.getElementById('toggle-zerg').click();
-  if(e.key=='l') document.getElementById('toggle-rbmlock').click();
+  if(e.key=='r') document.getElementById('toggle-rbmlock').click();
   if(e.key=='t') document.getElementById('toggle-darkmode').click();
   if(e.key=='?') document.getElementById('hotkeys').classList.toggle('shown');
   if(e.key=='.') try{document.querySelector(':is(#difficulty-select label,cell):hover').click()}catch(_){};
@@ -22,11 +22,11 @@ const getCell=(x,y)=>document.querySelector(`row[pos="${y}"] cell[pos="${x}"]`);
 const neighbourlib = [
   {x:-1,y:-1},
   {x:-1,y: 0},
-  {x:-1,y: 1},
-  {x: 0,y: 1},
-  {x: 1,y: 1},
-  {x: 1,y: 0},
-  {x: 1,y:-1},
+  {x:-1,y:+1},
+  {x: 0,y:+1},
+  {x:+1,y:+1},
+  {x:+1,y: 0},
+  {x:+1,y:-1},
   {x: 0,y:-1},
 ];
 const vinReEval = () => {
