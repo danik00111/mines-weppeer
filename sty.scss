@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=JetBrains+Mono:100,200,300,regular,500,600,700,800,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic);
-body{user-select:none;scroll-behavior:none;overscroll-behavior:none;overflow-x:hidden;font-size:12px}
+body{user-select:none;overscroll-behavior:none;overflow-x:hidden;font-size:12px}
 body.darkmode{
   background:#131415;color:white;
   :is(input, label){color:white}

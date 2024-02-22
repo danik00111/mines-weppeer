@@ -3,7 +3,6 @@ body {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  scroll-behavior: none;
   overscroll-behavior: none;
   overflow-x: hidden;
   font-size: 12px;
