@@ -6,7 +6,7 @@ document.addEventListener('click',()=>{
 });
 document.addEventListener('keypress',e=>{
   if(e.key=='z') document.getElementById('toggle-zerg').click();
-  if(e.key=='r') document.getElementById('toggle-rbmlock').click();
+  if(e.key=='r'||e.key=='l') document.getElementById('toggle-rbmlock').click();
   if(e.key=='t') document.getElementById('toggle-darkmode').click();
   if(e.key=='?') document.getElementById('hotkeys').classList.toggle('shown');
   if(e.key=='.') try{document.querySelector(':is(#difficulty-select label,cell):hover').click()}catch(_){};
