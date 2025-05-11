@@ -12,7 +12,7 @@ body.darkmode{
 *{font-family:"JetBrains Mono",monospace;margin:0;padding:0;border:0;outline:0;box-sizing:border-box;text-align:center}
 #howtoplay{width:fit-content;margin:0 auto}
 #howtoplay a{text-decoration:underline;color:black}
-input[name="difficulty"]{width:0;height:0}
+input[name="difficulty"]{width:0;height:0;display:none}
 input[name="difficulty"]:checked+label{color:blue}
 #difficulty-select label{font-size:28px;cursor:pointer}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}/*all websites*/
