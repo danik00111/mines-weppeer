@@ -58,6 +58,7 @@ body.darkmode #hotkeys-inner {
 input[name=difficulty] {
   width: 0;
   height: 0;
+  display: none;
 }
 
 input[name=difficulty]:checked + label {
